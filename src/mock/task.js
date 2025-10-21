@@ -36,7 +36,7 @@ const mockTasks = [
   },
   {
     description: 'Купить доллары',
-    dueDate: new Date('2014-01-01'),
+    dueDate: new Date('2026-01-01'),
     repeating: {
       mo: false,
       tu: false,
@@ -52,7 +52,7 @@ const mockTasks = [
   },
   {
     description: 'Пройти интенсив на соточку',
-    dueDate: new Date('2023-06-26'),
+    dueDate: new Date('2025-06-26'),
     repeating: {
       mo: false,
       tu: false,
