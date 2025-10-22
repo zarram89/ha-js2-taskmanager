@@ -13,7 +13,7 @@ const boardPresenter = new BoardPresenter({
   tasksModel,
 });
 
-const filters = generateFilter(taskModel.tasks);
+const filters = generateFilter(tasksModel.tasks);
 
 render(new NewTaskButtonView(), siteHeaderElement);
 render(new FilterView({filters}), siteMainElement);
