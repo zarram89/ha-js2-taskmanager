@@ -5,6 +5,7 @@ import TaskListView from '../view/task-list-view.js';
 import LoadMoreButtonView from '../view/load-more-button-view.js';
 import NoTaskView from '../view/no-task-view.js';
 import TaskPresenter from './task-presenter.js';
+import {updateItem} from '../utils/common.js';
 
 const TASK_COUNT_PER_STEP = 8;
 
@@ -20,6 +21,7 @@ export default class BoardPresenter {
 
   #boardTasks = [];
   #renderedTaskCount = TASK_COUNT_PER_STEP;
+  #taskPresenters = new Map();
 
   constructor({boardContainer, tasksModel}) {
     this.#boardContainer = boardContainer;
@@ -40,6 +42,11 @@ export default class BoardPresenter {
     }
   };
 
+  #handleTaskChange = (updatedTask) => {
+    this.#boardTasks = updateItem(this.#boardTasks, updatedTask);
+    this.#taskPresenters.get(updatedTask.id).init(updatedTask);
+  };
+
   #renderSort() {
     render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
   }
@@ -49,6 +56,7 @@ export default class BoardPresenter {
       taskListContainer: this.#taskListComponent.element,
     });
     taskPresenter.init(task);
+    this.#taskPresenters.set(task.id, taskPresenter);
   }
 
   #renderTasks(from, to) {
@@ -67,6 +75,13 @@ export default class BoardPresenter {
     });
 
     render(this.#loadMoreButtonComponent, this.#boardComponent.element);
+  }
+
+  #clearTaskList() {
+    this.#taskPresenters.forEach((presenter) => presenter.destroy());
+    this.#taskPresenters.clear();
+    this.#renderedTaskCount = TASK_COUNT_PER_STEP;
+    remove(this.#loadMoreButtonComponent);
   }
 
   #renderTaskList() {
