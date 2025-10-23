@@ -15,5 +15,5 @@ const SortType = {
   DATE_UP: 'date-up',
 };
 
-export {COLORS, FilterType};
+export {COLORS, FilterType, SortType};
 
