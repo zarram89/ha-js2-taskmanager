@@ -46,8 +46,6 @@ export default class TaskPresenter {
       return;
     }
 
-    // Проверка на наличие в DOM необходима,
-    // чтобы не пытаться заменить то, что не было отрисовано
     if (this.#mode === Mode.DEFAULT) {
       replace(this.#taskComponent, prevTaskComponent);
     }
@@ -67,6 +65,7 @@ export default class TaskPresenter {
 
   resetView() {
     if (this.#mode !== Mode.DEFAULT) {
+      this.#taskEditComponent.reset(this.#task);
       this.#replaceFormToCard();
     }
   }
@@ -87,6 +86,7 @@ export default class TaskPresenter {
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
+      this.#taskEditComponent.reset(this.#task);
       this.#replaceFormToCard();
     }
   };
