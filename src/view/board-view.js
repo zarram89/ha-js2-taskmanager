@@ -11,7 +11,7 @@ export default class BoardView {
 
   getElement() {
     if (!this.element) {
-      return createElement(this.getTemplate());
+      this.element = createElement(this.getTemplate());
     }
 
     return this.element;
