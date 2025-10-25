@@ -2,8 +2,6 @@ import {render, RenderPosition, remove} from '../framework/render.js';
 import BoardView from '../view/board-view.js';
 import SortView from '../view/sort-view.js';
 import TaskListView from '../view/task-list-view.js';
-import TaskView from '../view/task-view.js';
-import TaskEditView from '../view/task-edit-view.js';
 import LoadMoreButtonView from '../view/load-more-button-view.js';
 import NoTaskView from '../view/no-task-view.js';
 import TaskPresenter from './task-presenter.js';
@@ -22,6 +20,7 @@ export default class BoardPresenter {
 
   #boardTasks = [];
   #renderedTaskCount = TASK_COUNT_PER_STEP;
+  #taskPresenters = new Map();
 
   constructor({boardContainer, tasksModel}) {
     this.#boardContainer = boardContainer;
@@ -52,6 +51,7 @@ export default class BoardPresenter {
       this.#taskListComponent.element
     });
     taskPresenter.init(task);
+    this.#taskPresenters.set(task.id, taskPresenter);
   }
 
   #renderTasks(from, to) {
@@ -70,6 +70,13 @@ export default class BoardPresenter {
     });
 
     render(this.#loadMoreButtonComponent, this.#boardComponent.element);
+  }
+
+  #clearTaskList() {
+    this.#taskPresenters.forEach((presenter) => presenter.destroy());
+    this.#taskPresenters.clear();
+    this.#renderedTaskCount = TASK_COUNT_PER_STEP;
+    remove(this.#loadMoreButtonComponent);
   }
 
   #renderTaskList() {
