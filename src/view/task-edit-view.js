@@ -150,7 +150,7 @@ export default class TaskEditView extends AbstractView {
     this.#handleFormSubmit = onFormSubmit;
 
     this.element.querySelector('form')
-      .addEventListener('submit', this.#formSubmitHandler)
+      .addEventListener('submit', this.#formSubmitHandler);
   }
 
   get template() {
@@ -159,6 +159,6 @@ export default class TaskEditView extends AbstractView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(this.#task);
   };
 }
