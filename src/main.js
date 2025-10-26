@@ -4,7 +4,13 @@ import FilterView from './view/filter-view.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import TasksModel from './model/tasks-model.js';
 import FilterModel from './model/filter-model.js';
-import {generateFilter} from './mock/filter.js';
+
+const filters = [
+  {
+    type: 'all',
+    count: 0,
+  },
+];
 
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = siteMainElement.querySelector('.main__control');
@@ -12,12 +18,14 @@ const tasksModel = new TasksModel();
 const filterModel = new FilterModel();
 const boardPresenter = new BoardPresenter({
   boardContainer: siteMainElement,
-  tasksModel
+  tasksModel,
 });
 
-const filters = generateFilter(tasksModel.tasks);
-
 render(new NewTaskButtonView(), siteHeaderElement);
-render(new FilterView({filters}), siteMainElement);
+render(new FilterView({
+  filters,
+  currentFilterType: 'all',
+  onFilterTypeChange: () => {}
+}), siteMainElement);
 
 boardPresenter.init();
