@@ -148,16 +148,20 @@ export default class TaskEditView extends AbstractStatefulView {
     this._setState(TaskEditView.parseTaskToState(task));
     this.#handleFormSubmit = onFormSubmit;
 
+    this._restoreHandlers();
+  }
+
+  get template() {
+    return createTaskEditTemplate(this._state);
+  }
+
+  _restoreHandlers() {
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.card__date-deadline-toggle')
       .addEventListener('click', this.#dueDateToggleHandler);
     this.element.querySelector('.card__repeat-toggle')
       .addEventListener('click', this.#repeatingToggleHandler);
-  }
-
-  get template() {
-    return createTaskEditTemplate(this._state);
   }
 
   #formSubmitHandler = (evt) => {
@@ -180,7 +184,8 @@ export default class TaskEditView extends AbstractStatefulView {
   };
 
   static parseTaskToState(task) {
-    return {...task,
+    return {
+      ...task,
       isDueDate: task.dueDate !== null,
       isRepeating: isTaskRepeating(task.repeating),
     };
