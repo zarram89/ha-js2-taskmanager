@@ -23,7 +23,7 @@ export default class TasksModel extends Observable {
       ...this.#tasks.slice(index + 1),
     ];
 
-    this._notify(updateType, upдавайdate);
+    this._notify(updateType, update);
   }
 
   addTask(updateType, update) {
